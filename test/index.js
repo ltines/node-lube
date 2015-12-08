@@ -67,7 +67,7 @@ describe('lube', function(){
 			};
 			
 			var instance = lube().use(p1);
-			instance.check.should.throw();
+			instance.check.bind(instance).should.throw();
 			instance.use(p2);
 			instance.check.bind(instance).should.not.throw();
 		});

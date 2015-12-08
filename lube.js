@@ -15,7 +15,7 @@ function insertRequires(instance, requireArray) {
 function insertProvides(instance, name, promise, context, replace) {
     if (!replace && (
         instance._components[name] &&
-        instance._components[name] !== instance._unsatisfiedRequirement
+        instance._components[name] !== unsatisfiedRequirement
         )
     )
         throw new Error('Plugin that provides ' + name + ' is already registered.');
@@ -49,7 +49,7 @@ module.exports = function (){
          * @param {boolean} replaceIfExists - Specifies whether a component with the same name should be replaced with this one.
          * @returns {Object} Container 
          **/ 
-        use: function (component, replaceIfExists) {
+        use: function use (component, replaceIfExists) {
 			if(component instanceof Array)
 			{
 				for(var i = 0; i < component.length; i++ )
@@ -68,7 +68,7 @@ module.exports = function (){
          * Check whether all compontents have satisfied dependecies.
          * @returns {Object} Container
          **/
-		check: function()
+		check: function check ()
 		{
 			//make sure no _plugin is unsatisfied requirement
 			for(var name in this._components){
@@ -85,7 +85,7 @@ module.exports = function (){
          * @param {Regex} nameRegex - regular expression to filter components
          * @return {Promise[]} All matching components. If none of the components matches returns promise of an empty array. 
          **/ 
-		allComponents: function(nameRegex){
+		allComponents: function allComponents (nameRegex){
 			var promises = [];
 			for(var name in this._components)
 			{
@@ -102,7 +102,7 @@ module.exports = function (){
          * @param {string} name - Component name to match
          * @return {Promise} Matched component or throws
          **/
-		component: function(name)	//promise for registered component
+		component: function component (name)	//promise for registered component
         {
 			if(!this._components[name])
 				throw new Error('Cant provide ' + name);
