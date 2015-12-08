@@ -108,5 +108,5 @@ For complete API documentation see [lube.js](lube.js).
 
 ## Release History
 
-* 0.0.1 Initial release
-* 0.2.0 Actually making it work
+* 0.1.0 Initial release
+* 0.2.0 Some more renaming from first attempt
