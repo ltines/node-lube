@@ -1,11 +1,11 @@
-# node-syringe
+# node-lube
 Simple dependency injector for node using Promises. Lifecycle of resolved components are handled by client via nesting promises.
-Syringe supports simple dependency checking between components, i.e. you can specify which components are required and *check* will fail
+lube supports simple dependency checking between components, i.e. you can specify which components are required and *check* will fail
 with they are not me.
 
 ## Installation
 ```
-npm install syringe --save
+npm install lube --save
 ```
 
 ## Test
@@ -19,7 +19,7 @@ To register a component:
 
 ```javascript
 var component = require('./mycomponent');
-var container = require('syringe')();
+var container = require('lube')();
 
 container
     .use(component())   //add component to the container
@@ -32,7 +32,7 @@ We can even register multiple components at once:
 var component_a = require('./mycomponent'),
     component_b = require('./my-other-component');
     
-var container = require('syringe')();
+var container = require('lube')();
 
 container
     .use([component_a(),component_b()])   //add components to the container
@@ -45,7 +45,7 @@ If we want to register component with the same name as already registered:
 var component_a = require('./mycomponent'),
     component_same_name_as_a = require('./my-other-component-with-same-name');
     
-var container = require('syringe')();
+var container = require('lube')();
 
 container
     .use(component_a())
@@ -104,7 +104,7 @@ module.exports = function () {
 
 
 ## API
-For complete API documentation see [syringe.js](syringe.js).
+For complete API documentation see [lube.js](lube.js).
 
 ## Release History
 
