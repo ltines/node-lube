@@ -1,0 +1,28 @@
+{
+  "name": "lube",
+  "version": "0.1.0",
+  "description": "Simple dependency injector for node using Promises",
+  "main": "lube.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ltines/node-lube.git"
+  },
+  "keywords": [
+    "dependency",
+    "injection",
+    "node",
+    "promise"
+  ],
+  "author": "Lukas Tines <lukas.tines@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ltines/node-lube/issues"
+  },
+  "homepage": "https://github.com/ltines/node-lube#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}

@@ -1,0 +1,5 @@
+test/*
+gulpfile.js
+sample-component.js
+.npmignore
+jsconfig.json
