@@ -1,5 +1,6 @@
 # node-lube
-Simple dependency injector for node using Promises. Lifecycle of resolved components are handled by client via nesting promises.
+Simple dependency injector for node using Promises. Lifecycle of resolved components are handled by client via nesting promises or you can use a *lifecycleContainer*
+parameter to hold references to already resolved components.
 lube supports simple dependency checking between components, i.e. you can specify which components are required and *check* will fail
 with they are not me.
 
@@ -101,7 +102,6 @@ module.exports = function () {
     }
 }
 ```
-
 
 ## API
 For complete API documentation see [lube.js](lube.js).

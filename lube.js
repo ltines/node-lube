@@ -83,15 +83,16 @@ module.exports = function (){
         /**
          * Returns all components with name matching the regular expression
          * @param {Regex} nameRegex - regular expression to filter components
+         * @param {Object} lifecycleContainer - object that holds already resolved components
          * @return {Promise[]} All matching components. If none of the components matches returns promise of an empty array. 
          **/ 
-		allComponents: function allComponents (nameRegex){
+		allComponents: function allComponents (nameRegex, lifecycleContainer){
 			var promises = [];
 			for(var name in this._components)
 			{
 				if(name.match(nameRegex))
 				{
-					promises.push(this.component(name));
+					promises.push(this.component(name, lifecycleContainer));
 				}
 			}
 			
@@ -100,15 +101,25 @@ module.exports = function (){
         /**
          * Returns first component that matches the name
          * @param {string} name - Component name to match
+         * @param {Object} lifecycleContainer - object that holds already resolved components
          * @return {Promise} Matched component or throws
          **/
-		component: function component (name)	//promise for registered component
+		component: function component (name, lifecycleContainer)	//promise for registered component
         {
 			if(!this._components[name])
 				throw new Error('Cant provide ' + name);
-			var component = this._components[name];
-			
-            return component.promise.call(component.context || this, this);
+            var component = this._components[name];
+            
+            if (lifecycleContainer && lifecycleContainer[name])
+            {
+                //context already contains this component
+                return lifecycleContainer[name];
+            }
+            var componentPromise = component.promise.call(component.context || this, this);
+            if (lifecycleContainer)
+                lifecycleContainer[name] = componentPromise;
+ 
+            return componentPromise;
 		}
 	};
 };

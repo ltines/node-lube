@@ -209,87 +209,159 @@ describe('lube', function(){
                 .then(function () {
                     done();
                 });
+        });
+        describe('when using Lifecycle Container', function () {
+            it('getting a component populates container', function (done) {
+                var container = {};
+                var x = 0;
+                var p1 = {
+                    req: [],
+                    provides: 'test',
+                    providePromise: function (container) {
+                        return new Promise(function (resolve, reject) {
+                            resolve(x);
+                        });
+                    }
+                };
+                var instance = lube().use(p1);
+                instance.check();
+                instance.component('test', container)
+                    .then(function (b) {
+                        expect(container['test']).to.be.not.undefined;
+                        done();
+                    });
+            });
 
+            it('getting a component multiple time resolves component only once', function () {
+                var container = {};
+                var x = 0;
+                var p1 = {
+                    req: [],
+                    provides: 'test',
+                    providePromise: function (container) {
+                        return new Promise(function (resolve, reject) {
+                            x++;
+                            resolve(x);
+                        });
+                    }
+                };
+                var instance = lube().use(p1);
+                instance.check();
+                instance.component('test', container)
+                    .then(function (b) {
+                        return instance.component('test', container);
+                    })
+                    .then(function (a) {
+                        x.should.equal(1);
+                        done();
+                    });
+            });
         });
 	});
 	
-	describe('getting multiple components', function(){
-		it('should return only components specified by regex', function(done){
-			var p1 = {
-				req: [],
-				provides: 'a/test',
-				providePromise: function(container){
-					return Promise.resolve('test');
-				}
-			};
-			var p2 = {
-				req: [],
-				provides: 'a/test 2',
-				providePromise: function(container){
-					return Promise.resolve('test 2');
-				}
-			};
-			
-			var p3 = {
-				req: [],
-				provides: 'c/test 2',
-				providePromise: function(container){
-					return Promise.resolve('test 3');
-				}
-			};
-			
-			var instance = lube().use(p1).use(p2).use(p3);
-			instance.check();
-			
-			instance.allComponents(/a\/.*/)
-			.then(function(components){
-				components.should.be.instanceof(Array);
-				components.should.have.length(2);
-				if(components[0] == 'test')
-					components[1].should.equal('test 2');
-				else
-				{
-					components[0].should.equal('test 2');	
-					components[1].should.equal('test');
-				}
-				done();
-			});
-		});
-		
-		it('should return promise with array of components', function(done){
-			var p1 = {
-				req: [],
-				provides: 'a/test',
-				providePromise: function(container){
-					return Promise.resolve('test');
-				}
-			};
-			var p2 = {
-				req: [],
-				provides: 'a/test 2',
-				providePromise: function(container){
-					return Promise.resolve('test 2');
-				}
-			};
-			
-			var instance = lube().use(p1).use(p2);
-			instance.check();
-			
-			instance.allComponents(/a\/.*/)
-			.then(function(components){
-				components.should.be.instanceof(Array);
-				components.should.have.length(2);
-				if(components[0] == 'test')
-					components[1].should.equal('test 2');
-				else
-				{
-					components[0].should.equal('test 2');	
-					components[1].should.equal('test');
-				}
-				done();
-			});
-			
-		})	
-	})
+    describe('getting multiple components', function () {
+        it('should return only components specified by regex', function (done) {
+            var p1 = {
+                req: [],
+                provides: 'a/test',
+                providePromise: function (container) {
+                    return Promise.resolve('test');
+                }
+            };
+            var p2 = {
+                req: [],
+                provides: 'a/test 2',
+                providePromise: function (container) {
+                    return Promise.resolve('test 2');
+                }
+            };
+
+            var p3 = {
+                req: [],
+                provides: 'c/test 2',
+                providePromise: function (container) {
+                    return Promise.resolve('test 3');
+                }
+            };
+
+            var instance = lube().use(p1).use(p2).use(p3);
+            instance.check();
+
+            instance.allComponents(/a\/.*/)
+                .then(function (components) {
+                    components.should.be.instanceof(Array);
+                    components.should.have.length(2);
+                    if (components[0] == 'test')
+                        components[1].should.equal('test 2');
+                    else {
+                        components[0].should.equal('test 2');
+                        components[1].should.equal('test');
+                    }
+                    done();
+                });
+        });
+
+        it('should return promise with array of components', function (done) {
+            var p1 = {
+                req: [],
+                provides: 'a/test',
+                providePromise: function (container) {
+                    return Promise.resolve('test');
+                }
+            };
+            var p2 = {
+                req: [],
+                provides: 'a/test 2',
+                providePromise: function (container) {
+                    return Promise.resolve('test 2');
+                }
+            };
+
+            var instance = lube().use(p1).use(p2);
+            instance.check();
+
+            instance.allComponents(/a\/.*/)
+                .then(function (components) {
+                    components.should.be.instanceof(Array);
+                    components.should.have.length(2);
+                    if (components[0] == 'test')
+                        components[1].should.equal('test 2');
+                    else {
+                        components[0].should.equal('test 2');
+                        components[1].should.equal('test');
+                    }
+                    done();
+                });
+        });
+        describe('when using Lifecycle Container', function () {
+            it('should populate the Container', function (done) {
+                var c = {};
+                var p1 = {
+                    req: [],
+                    provides: 'a/test',
+                    providePromise: function (container) {
+                        return Promise.resolve('test');
+                    }
+                };
+                var p2 = {
+                    req: [],
+                    provides: 'a/test 2',
+                    providePromise: function (container) {
+                        return Promise.resolve('test 2');
+                    }
+                };
+
+                var instance = lube().use(p1).use(p2);
+                instance.check();
+
+                instance.allComponents(/a\/.*/, c)
+                    .then(function (components) {
+                        expect(c['a/test']).to.be.not.undefined;
+                        expect(c['a/test 2']).to.be.not.undefined;
+                        done();
+                    });
+            });
+        });
+    });
 });
 	
