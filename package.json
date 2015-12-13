@@ -1,6 +1,6 @@
 {
   "name": "lube",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Simple dependency injector for node using Promises",
   "main": "lube.js",
   "scripts": {

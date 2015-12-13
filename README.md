@@ -110,3 +110,4 @@ For complete API documentation see [lube.js](lube.js).
 
 * 0.1.0 Initial release
 * 0.2.0 Some more renaming from first attempt
+* 0.3.0 Lifecycle support
